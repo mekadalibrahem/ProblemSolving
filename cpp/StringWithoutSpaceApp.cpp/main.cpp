@@ -1,7 +1,9 @@
 #include <iostream>;
 #include <string.h>
 #include <stdio.h>
-
+/*
+Simple, remove the spaces from the string, then return the resultant string.
+*/
 using namespace std;
 string no_space(string x);
 int main()
@@ -12,12 +14,10 @@ int main()
 }
 string no_space(string x){
     std::string stringWithoutSpace = "";
-      string space = " " ;
+
       for(int i =0 ; i < x.length() ; i++){
-
-
         if(isspace(x[i])) continue ;
-       // if(strcmp(c, space) == 0 ) continue ;
+
         else stringWithoutSpace += x[i];
       }
       return stringWithoutSpace ;
