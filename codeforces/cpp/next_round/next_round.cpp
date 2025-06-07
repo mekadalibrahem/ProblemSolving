@@ -1,5 +1,5 @@
 /*
-                A. Next Round
+				A. Next Round
 "Contestant who earns a score equal to or greater than the k-th place finisher's score will advance to the next round, as long as the contestant earns a positive score..." — an excerpt from contest rules.
 
 A total of n participants took part in the contest (n ≥ k), and you already know their scores. Calculate how many participants will advance to the next round.
@@ -11,30 +11,35 @@ Output
 Output the number of participants who advance to the next round.
 
 */
-// C++ program to read multiple numbers in a single line of 
-// input 
-#include <iostream> 
+// C++ program to read multiple numbers in a single line of
+// input
+#include <iostream>
 
-using namespace std; 
+using namespace std;
 
-int main() 
-{ 
+int main()
+{
+	int output = 0;
 
-	int output= 0; 
-	int num ; 
+	int counts, cutoff_index, min_number;
+	cin >> counts >> cutoff_index;
+	int num[counts];
 
-	int counts , min_num  ;
-	cin >> counts >> min_num ; 
-
-	
-	for(int i = 0 ; i <counts;i++){
-		cin >> num ;
-		if(num>=min_num){
-			output = output +1 ;
-		} 
+	// get input
+	for (int i = 0; i < counts; i++)
+	{
+		cin >> num[i];
+	}
+	min_number = num[cutoff_index - 1];
+	for (int i = 0; i < counts; i++)
+	{
+		if (num[i] >= min_number && num[i] > 0)
+		{
+			output++;
+		}
 	}
 
-	cout << output; 
+	cout << output;
 
-	return 0; 
+	return 0;
 }
