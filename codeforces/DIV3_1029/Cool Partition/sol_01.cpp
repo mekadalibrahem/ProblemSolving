@@ -55,11 +55,8 @@ For each test case, print one integer — the maximum number of segments that ma
 #include <iostream>
 #include <vector>
 #include <cmath>
-
+#include <map>
 using namespace std;
-
-vector<vector<int>> splitVector(vector<int> v , int start , int end);
-
 
 int main()
 {
@@ -70,13 +67,19 @@ int main()
     {
         int n;
         cin >> n;
-        vector<int> arr ;
+        vector<int> arr;
+        map<int, int> arr_map;
         for (int j = 0; j < n; j++)
         {
-            cin >> arr[j];
+            int temp;
+            cin >> temp;
+            arr.push_back(temp);
+            arr_map[temp] = ++arr_map[temp];
         }
-        
-    
+        int maxium_segment = arr_map[arr.at(0)];
+        for(int t = maxium_segment ; t > 0 ; t--){
+            
+        }
     }
     for (int i : res)
     {
@@ -86,10 +89,3 @@ int main()
     return 0;
 }
 
-vector<vector<int>> splitVector(vector<int> v , int start , int end){
-    for (int i = 0; i < v.size(); i++)
-    {
-        // if
-    }
-    
-}
