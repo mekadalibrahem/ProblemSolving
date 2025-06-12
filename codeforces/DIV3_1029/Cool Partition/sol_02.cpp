@@ -1,43 +1,33 @@
-#include <iostream>
-#include <vector>
-#include <unordered_map>
-
+#include <bits/stdc++.h>
 using namespace std;
+
+void solve()
+{
+    int n, ans = 0;
+    cin >> n;
+    vector<int> a(n);
+    for (int i = 0; i < n; i++)
+        cin >> a[i];
+    set<int> cur, seen;
+    for (int i = 0; i < n; i++)
+    {
+        cur.insert(a[i]);
+        seen.insert(a[i]);
+        if (cur.size() == seen.size())
+        {
+            ans++;
+            seen.clear();
+        }
+    }
+    cout << ans << '\n';
+}
 
 int main()
 {
-
+    ios::sync_with_stdio(false);
+    cin.tie(NULL);
     int t;
     cin >> t;
     while (t--)
-    {
-        int n;
-        cin >> n;
-        vector<int> a(n);
-        // unordered_map<int, int> last_occurrence;
-        for (int i = 0; i < n; ++i)
-        {
-            cin >> a[i];
-            // last_occurrence[a[i]] = i;
-        }
-
-        int max_segments = 0;
-        int current_end = 0;
-        int segment_start = 0;
-
-        for (int i = 0; i < n; ++i)
-        {
-            // current_end = max(current_end, last_occurrence[a[i]]);
-             current_end = current_end;
-            if (i == current_end)
-            {
-                max_segments++;
-                segment_start = i + 1;
-            }
-        }
-
-        cout << max_segments << '\n';
-    }
-
-    return 0;
+        solve();
 }

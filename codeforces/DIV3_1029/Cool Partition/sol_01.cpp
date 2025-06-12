@@ -52,40 +52,164 @@ Output
 For each test case, print one integer — the maximum number of segments that make a cool partition.
 
 */
-#include <iostream>
-#include <vector>
-#include <cmath>
-#include <map>
+
+//  TAKE LONG TIME
+#include <bits/stdc++.h>
+
+using ll = long long;
+const ll N = 10e5 + 10;
+
 using namespace std;
+
+bool is_cool(vector<vector<ll>> segments)
+{
+
+    for (int i = 0; i < segments.size(); i++)
+    {
+        vector<ll> cool = segments[i];
+        if (cool.empty())
+        {
+            return false;
+        }
+        for (int j = i + 1; j < segments.size(); j++)
+        {
+            vector<ll> part2 = segments[j];
+            for (ll num : cool)
+            {
+                bool found = false;
+                for (ll num2 : part2)
+                {
+                    if (num == num2)
+                    {
+                        found = true;
+                        break;
+                    }
+                }
+                if (found == false)
+                {
+                    return false;
+                }
+            }
+        }
+    }
+    return true;
+}
+
+vector<vector<ll>> splite_segemnts(ll index, vector<ll> nums)
+{
+    vector<vector<ll>> segments;
+    vector<ll> s1, s2;
+    for (int i = 0; i < index; i++)
+    {
+        s1.push_back(nums[i]);
+    }
+    for (int i = index; i < nums.size(); i++)
+    {
+        s2.push_back(nums[i]);
+    }
+    segments.push_back(s1);
+    segments.push_back(s2);
+    return segments;
+}
 
 int main()
 {
-    int test_case = 0;
-    cin >> test_case;
-    int res[test_case];
-    for (int i = 0; i < test_case; i++)
+    ios_base::sync_with_stdio(false);
+    cin.tie(nullptr);
+    ll t;
+    cin >> t;
+    vector<ll> result;
+    while (t--)
     {
-        int n;
+        ll n, first, segments = 1;
+        ll max_count = 0;
+        stack<ll> num_index;
+        vector<ll> nums;
         cin >> n;
-        vector<int> arr;
-        map<int, int> arr_map;
-        for (int j = 0; j < n; j++)
+
+        for (int i = 0; i < n; i++)
         {
-            int temp;
-            cin >> temp;
-            arr.push_back(temp);
-            arr_map[temp] = ++arr_map[temp];
+            ll m;
+            cin >> m;
+            if (i == 0)
+            {
+                first = m;
+                max_count++;
+                num_index.push(i);
+            }
+            else
+            {
+                if (m == first)
+                {
+                    max_count++;
+                    num_index.push(i);
+                }
+            }
+
+            nums.push_back(m);
         }
-        int maxium_segment = arr_map[arr.at(0)];
-        for(int t = maxium_segment ; t > 0 ; t--){
-            
+
+        if (n == 1 || n == 0)
+        {
+            // one element => one segment
+            result.push_back(n);
+        }
+        else
+        {
+            if (max_count == 1)
+            {
+                result.push_back(max_count);
+            }
+            else
+            {
+                vector<vector<ll>> parts;
+
+                parts.push_back(nums);
+                ll cool_index = n + 5;
+                while (!num_index.empty())
+                {
+                    ll index, top = num_index.top();
+                    num_index.pop();
+                    if (cool_index > top)
+                    {
+                        index = top;
+                    }
+                    else
+                    {
+                        index = cool_index;
+                    }
+                    vector<ll> part_to_splite = parts[0];
+
+                    bool isCool = false;
+                    for (int i = index; i >= 0; i--)
+                    {
+                        vector<vector<ll>> temp_parts = splite_segemnts(i, part_to_splite);
+                        for (int j = 1; j < parts.size(); j++)
+                        {
+                            temp_parts.push_back(parts[j]);
+                        }
+                        if (is_cool(temp_parts))
+                        {
+                            isCool = true;
+                            cool_index = i;
+                            parts = temp_parts;
+                            break;
+                        }
+                    }
+                    if (isCool)
+                    {
+                        segments++;
+                    }
+                }
+
+                result.push_back(segments);
+            }
         }
     }
-    for (int i : res)
+    for (auto r : result)
     {
-        cout << i << endl;
+        cout << r << "\n";
     }
 
     return 0;
 }
-
