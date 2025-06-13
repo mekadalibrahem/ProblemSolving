@@ -48,3 +48,72 @@ For each test case, print "YES" if Yousef can explode the array, otherwise outpu
 
 You can output the answer in any case (upper or lower). For example, the strings "yEs", "yes", "Yes", and "YES" will be recognized as positive responses.
 */
+
+#include <bits/stdc++.h>
+
+using namespace std;
+
+using ll = long long;
+
+void solve()
+{
+    ll n;
+    cin >> n;
+    vector<ll> a(n, 0);
+    for (ll i = 0; i < n; i++)
+    {
+        cin >> a[i];
+    }
+
+    ll x_number, y_number, n_number;
+    x_number = n * a[n - 1] - a[0];
+    y_number = n * a[0] - a[n - 1];
+    n_number = n * n - 1;
+    if (x_number % n_number != 0 || y_number % n_number != 0)
+    {
+        cout << "NO\n";
+    }
+    else
+    {
+        ll x, y;
+        x = x_number / n_number;
+        y = y_number / n_number;
+        if (x < 0 || y < 0)
+        {
+            cout << "NO\n";
+        }
+        else
+        {
+            bool can_explode = true;
+            for (ll i = 0; i < n; i++)
+            {
+                if (a[i] != x * (i + 1) + y * (n - (i + 1) + 1))
+                {
+                    can_explode = false;
+                    break;
+                }
+            }
+            if (can_explode)
+            {
+                cout << "YES\n";
+            }
+            else
+            {
+                cout << "NO\n";
+            }
+        }
+    }
+}
+
+int main()
+{
+
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+    ll t;
+    cin >> t;
+    while (t--)
+    {
+        solve();
+    }
+}
