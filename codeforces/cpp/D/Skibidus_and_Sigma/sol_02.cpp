@@ -100,65 +100,45 @@ The maximum possible score is 41
 In the second test case, one optimal arrangement of the final concatenated array is [4,1,2,1,2,2,2,2,3,2,1,2]
 . We can calculate that the score is 162.
 */
-// Imporve code from 450mx to  93 ms and 12300KB to 4800KB
-
+// Imporve code from 450mx to  93 ms and 12300KB to 1200KB
 #include <bits/stdc++.h>
-
 using namespace std;
 typedef long long ll;
-typedef vector<pair<ll, ll>> vpll;
 
-ll solve();
-ll calc(vector<ll> v);
-int main()
-{
+ll solve() {
+    ll n, m;
+    cin >> n >> m;
+    vector<ll> sums(n), accum(n);
+    for (ll i = 0; i < n; i++) {
+        ll sum = 0, ac = 0;
+        for (ll j = 0; j < m; j++) {
+            ll x;
+            cin >> x;
+            sum += x;
+            ac += x * (m - j);
+        }
+        sums[i] = sum;
+        accum[i] = ac;
+    }
+    // Sort sums and get original indices
+    vector<ll> idx(n);
+    iota(idx.begin(), idx.end(), 0);
+    sort(idx.begin(), idx.end(), [&](ll i, ll j) { return sums[i] > sums[j]; });
+    ll total = 0, pre = 0;
+    for (ll i : idx) {
+        total += accum[i] + pre * m;
+        pre += sums[i];
+    }
+    return total;
+}
+
+int main() {
     ios::sync_with_stdio(false);
     cin.tie(nullptr);
     ll t;
     cin >> t;
-    vector<ll> res;
-    while (t--)
-    {
-        res.push_back(solve());
+    while (t--) {
+        cout << solve() << '\n';
     }
-
-    for (ll r : res)
-    {
-        cout << r << "\n";
-    }
-
     return 0;
-}
-
-ll solve()
-{
-    ll n, m, in;
-    cin >> n >> m;
-    vpll sums;
-    vector<ll> accum;
-
-    for (ll i = 0; i < n; i++)
-    {
-
-        ll sum = 0;
-        ll ac = 0;
-        for (ll j = 0; j < m; j++)
-        {
-            cin >> in;
-            sum += in;
-            ac += in * (m - j);
-        }
-        sums.push_back({i, sum});
-        accum.push_back(ac);
-    }
-    sort(sums.begin(), sums.end(), [](const pair<ll, ll> &f, const pair<ll, ll> &s)
-         { return f.second > s.second; });
-    ll total = 0;
-    ll pre = 0;
-    for (pair<ll, ll> p : sums)
-    {
-        total += accum[p.first] + (pre * m);
-        pre += p.second;
-    }
-    return total;
 }
